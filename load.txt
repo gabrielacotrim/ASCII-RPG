@@ -4,6 +4,6 @@ Gabs
 3
 0
 0
-6
-4
-True
+3
+2
+False
