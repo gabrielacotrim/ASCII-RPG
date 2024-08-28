@@ -12,6 +12,7 @@ ATK = 5
 bandage = 3     # small healing
 medicine = 0    # big healing
 scrap = 0       # currency
+bones = 0       # currency
 x = 0
 y = 0
 
@@ -57,6 +58,59 @@ biom = {
     "bunker": {
         "t": "BUNKER", 
         "e": False}    } 
+
+e_list = ["Infected", "Variant", "Scavenger", "Cult Member", "Wolves Scout", "Wild Wolf", "Infected Wolf"]
+
+mobs = {
+    "Infected": {
+        "hp": 10,
+        "atk": 5,
+        "scr": 8,
+        "bn": 0,
+        "bndg": 0,
+        "med": 0 
+    },
+    "Variant": {
+        "hp": 30,
+        "atk": 12,
+        "scr": 25,
+        "bn": 0,
+        "bndg": 0,
+        "med": 0
+    },
+    "Scavenger": {
+        "hp": 12,
+        "atk": 4,
+        "scr": 15,
+        "bn": 8,
+        "bndg": 2,
+        "med": 0
+    },
+    "Wolves Scout": {
+        "hp": 22,
+        "atk": 7,
+        "scr": 17,
+        "bn" : 10,
+        "bndg": 5,
+        "med": 2
+    },
+    "Wild Wolf": {
+        "hp": 15,
+        "atk": 5,
+        "scr": 0,
+        "bn" : 8,
+        "bndg": 0,
+        "med": 0
+    },
+    "Infected Wolf": {
+        "hp": 18,
+        "atk": 9,
+        "scr": 0,
+        "bn" : 16,
+        "bndg": 0,
+        "med": 0
+    }
+}
 
 current_tile = map[y][x]
 print(current_tile)
