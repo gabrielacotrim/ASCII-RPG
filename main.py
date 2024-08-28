@@ -8,7 +8,7 @@ key = False
 fight = False
 standing = True
 
-HP = 50
+HP = 5
 HPMAX = HP
 ATK = 5
 bandages = 3     # small healing
@@ -137,6 +137,7 @@ def save():
         str(bandages),
         str(medicine),
         str(scrap),
+        str(bones),
         str(x),
         str(y),
         str(key)
@@ -208,8 +209,21 @@ def battle():
             print("       |           |")
             print("       |           |")
             print("     [[|           |]]")
-            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-        
+            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+            draw()
+            input("> ")
+
+            if hp <= 0:
+                print(name + " slaughtered the " + enemy + "!")
+                draw()
+                fight = False
+                scrap += s
+                print("You've found:")
+                print(str(s))
+                bones += b
+                bandages += bd
+                medicine += md
+
 while run:
     while menu:
         clear()
@@ -278,68 +292,69 @@ while run:
                     fight = True
                     battle()
 
-        draw()
-        print("NAME: " + name)
-        print("HP: " + str(HP) + "/" + str(HPMAX))
-        print("ATK: " + str(ATK))
-        print("BANDAGE: " + str(bandages))
-        print("MEDICINE: " + str(medicine))
-        print("SCRAP: " + str(scrap))
-        print("BONES: " + str(bones))
-        print("COORD:", x, y)
-        draw()
-        print("LOCATION: " + biom[map[y][x]]["t"])       # current location
-        draw()
-        print("0 - SAVE AND QUIT")
-        if y > 0:
-            print("1 - NORTH")          # UP
-        if x < x_len:
-            print("2 - EAST")           # RIGHT
-        if y < y_len:
-            print("3 - SOUTH")          # DOWN
-        if x > 0:
-            print("4 - WEST")           # LEFT
-        draw()
-        
-        dest = input("# ")
-        
-        if dest == "0":
-            play = False
-            menu = True
-            save()
-        elif dest == "1":           # MOVE UP
+        if play:
+            draw()
+            print("NAME: " + name)
+            print("HP: " + str(HP) + "/" + str(HPMAX))
+            print("ATK: " + str(ATK))
+            print("BANDAGE: " + str(bandages))
+            print("MEDICINE: " + str(medicine))
+            print("SCRAP: " + str(scrap))
+            print("BONES: " + str(bones))
+            print("COORD:", x, y)
+            draw()
+            print("LOCATION: " + biom[map[y][x]]["t"])       # current location
+            draw()
+            print("0 - SAVE AND QUIT")
             if y > 0:
-                y -= 1
-                standing = False
-            else:
-                menu = False
-                play = True
-                print("You have reach the border and can not go further...")
-                input("> ")
-        elif dest == "2":           # MOVE RIGHT
+                print("1 - NORTH")          # UP
             if x < x_len:
-                x += 1
-                standing = False
-            else:
-                menu = False
-                play = True
-                print("You have reach the border and can not go further...")
-                input("> ")
-        elif dest ==  "3":          # MOVE DOWN
+                print("2 - EAST")           # RIGHT
             if y < y_len:
-                y += 1
-                standing = False
-            else:
-                menu = False
-                play = True
-                print("You have reach the border and can not go further...")
-                input("> ")
-        elif dest == "4":           # MOVE LEFT
+                print("3 - SOUTH")          # DOWN
             if x > 0:
-                x -= 1
-                standing = False
-            else:
-                menu = False
-                play = True
-                print("You have reach the border and can not go further...")
-                input("> ")
+                print("4 - WEST")           # LEFT
+            draw()
+            
+            dest = input("# ")
+            
+            if dest == "0":
+                play = False
+                menu = True
+                save()
+            elif dest == "1":           # MOVE UP
+                if y > 0:
+                    y -= 1
+                    standing = False
+                else:
+                    menu = False
+                    play = True
+                    print("You have reach the border and can not go further...")
+                    input("> ")
+            elif dest == "2":           # MOVE RIGHT
+                if x < x_len:
+                    x += 1
+                    standing = False
+                else:
+                    menu = False
+                    play = True
+                    print("You have reach the border and can not go further...")
+                    input("> ")
+            elif dest ==  "3":          # MOVE DOWN
+                if y < y_len:
+                    y += 1
+                    standing = False
+                else:
+                    menu = False
+                    play = True
+                    print("You have reach the border and can not go further...")
+                    input("> ")
+            elif dest == "4":           # MOVE LEFT
+                if x > 0:
+                    x -= 1
+                    standing = False
+                else:
+                    menu = False
+                    play = True
+                    print("You have reach the border and can not go further...")
+                    input("> ")
