@@ -192,7 +192,7 @@ def battle():
             pass
 
         if HP <= 0:
-            print(enemy + " killed " + name "...")
+            print("The" + enemy + " killed " + name + "...")
             draw()
             fight = False
             play = False
