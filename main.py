@@ -1,15 +1,17 @@
-import os
+import os, random
 
 run = True
 menu = True
 play = False
 rules = False
 key = False
+fight = False
+standing = True
 
 HP = 50
 HPMAX = HP
 ATK = 5
-bandage = 3     # small healing
+bandages = 3     # small healing
 medicine = 0    # big healing
 scrap = 0       # currency
 bones = 0       # currency
@@ -64,23 +66,23 @@ e_list = ["Infected", "Variant", "Scavenger", "Cult Member", "Wolves Scout", "Wi
 mobs = {
     "Infected": {
         "hp": 10,
-        "atk": 5,
+        "at": 5,
         "scr": 8,
         "bn": 0,
         "bndg": 0,
         "med": 0 
     },
-    "Variant": {
-        "hp": 30,
-        "atk": 12,
-        "scr": 25,
-        "bn": 0,
-        "bndg": 0,
-        "med": 0
-    },
+    #"Variant": {
+     #   "hp": 30,
+      #  "at": 12,
+       # "scr": 25,
+        #"bn": 0,
+        #"bndg": 0,
+        #"med": 0
+    #},
     "Scavenger": {
         "hp": 12,
-        "atk": 4,
+        "at": 4,
         "scr": 15,
         "bn": 8,
         "bndg": 2,
@@ -88,7 +90,7 @@ mobs = {
     },
     "Wolves Scout": {
         "hp": 22,
-        "atk": 7,
+        "at": 7,
         "scr": 17,
         "bn" : 10,
         "bndg": 5,
@@ -96,7 +98,7 @@ mobs = {
     },
     "Wild Wolf": {
         "hp": 15,
-        "atk": 5,
+        "at": 5,
         "scr": 0,
         "bn" : 8,
         "bndg": 0,
@@ -104,7 +106,7 @@ mobs = {
     },
     "Infected Wolf": {
         "hp": 18,
-        "atk": 9,
+        "at": 9,
         "scr": 0,
         "bn" : 16,
         "bndg": 0,
@@ -132,7 +134,7 @@ def save():
         name,
         str(HP),
         str(ATK),
-        str(bandage),
+        str(bandages),
         str(medicine),
         str(scrap),
         str(x),
@@ -146,7 +148,50 @@ def save():
         f.write(item + "\n")
     f.close()
 
+def battle():
+    global fight, play, run, HP, bandages, medicine, scrap, bones
 
+    enemy = random.choice(e_list)
+    hp = mobs[enemy]["hp"]
+    hpmax = hp
+    atk = mobs[enemy]["at"]
+    s = mobs[enemy]["scp"]
+    b = mobs[enemy]["bn"]
+    bd = mobs[enemy]["bndg"]
+    md = mobs[enemy]["med"]
+
+    while fight:
+        clear()
+        draw()
+        print("Defeat the " + enemy + "!")
+        draw()
+        print(enemy + "'s HP: " + str(hp) + "/" + str(hpmax))
+        print(name + "'s HP: " + str(HP) + "/" + str(HPMAX))
+        print("BANDAGES: " + str(bandages))
+        print("MEDICINE: " + str(medicine))
+        draw()
+        print("1 - ATTACK")
+        if bandages > 0:
+            print("2 - USE BANDAGE (25HP)")
+        if medicine:   
+            print("3- USE MEDICINE (50HP)")
+        draw()
+
+        choice = input("# ")
+
+        if choice == "1":
+            hp -= ATK
+            print(name + " dealt " + str(ATK) + " damage to the " + enemy + ".")
+            if hp > 0:
+                HP -= atk
+                print(enemy + " dealt " + str(atk) + " damage to " + name + ".")
+                input("> ")
+        elif choice == "2":
+            pass
+        elif choice == "3":
+            pass
+
+        
 while run:
     while menu:
         clear()
@@ -176,16 +221,17 @@ while run:
             try:
                 f = open("load.txt", "r")
                 load_list = f.readlines()
-                if len(load_list) == 9:
+                if len(load_list) == 10:
                     name = load_list[0][:-1]
                     HP = int(load_list[1][:-1])
                     ATK = int(load_list[2][:-1])
-                    bandage = int(load_list[3][:-1])
+                    bandages = int(load_list[3][:-1])
                     medicine = int(load_list[4][:-1])
                     scrap = int(load_list[5][:-1])
-                    x = int(load_list[6][:-1])
-                    y = int(load_list[7][:-1])
-                    key = bool(load_list[8][:-1])
+                    bones = int(load_list[6][:-1])
+                    x = int(load_list[7][:-1])
+                    y = int(load_list[8][:-1])
+                    key = bool(load_list[9][:-1])
                     clear()
                     draw()
                     print("Welcome back, " + name + "!")
@@ -207,13 +253,21 @@ while run:
     while play:
         save() # autosave
         clear()
+
+        if not standing:
+            if biom[map[y][x]]["e"]:
+                if random.randint(0, 100) <= 30:
+                    fight = True
+                    battle()
+
         draw()
         print("NAME: " + name)
         print("HP: " + str(HP) + "/" + str(HPMAX))
         print("ATK: " + str(ATK))
-        print("BANDAGE: " + str(bandage))
+        print("BANDAGE: " + str(bandages))
         print("MEDICINE: " + str(medicine))
         print("SCRAP: " + str(scrap))
+        print("BONES: " + str(bones))
         print("COORD:", x, y)
         draw()
         print("LOCATION: " + biom[map[y][x]]["t"])       # current location
@@ -238,6 +292,7 @@ while run:
         elif dest == "1":           # MOVE UP
             if y > 0:
                 y -= 1
+                standing = False
             else:
                 menu = False
                 play = True
@@ -246,6 +301,7 @@ while run:
         elif dest == "2":           # MOVE RIGHT
             if x < x_len:
                 x += 1
+                standing = False
             else:
                 menu = False
                 play = True
@@ -254,6 +310,7 @@ while run:
         elif dest ==  "3":          # MOVE DOWN
             if y < y_len:
                 y += 1
+                standing = False
             else:
                 menu = False
                 play = True
@@ -262,6 +319,7 @@ while run:
         elif dest == "4":           # MOVE LEFT
             if x > 0:
                 x -= 1
+                standing = False
             else:
                 menu = False
                 play = True
