@@ -155,7 +155,7 @@ def battle():
     hp = mobs[enemy]["hp"]
     hpmax = hp
     atk = mobs[enemy]["at"]
-    s = mobs[enemy]["scp"]
+    s = mobs[enemy]["scr"]
     b = mobs[enemy]["bn"]
     bd = mobs[enemy]["bndg"]
     md = mobs[enemy]["med"]
@@ -191,6 +191,24 @@ def battle():
         elif choice == "3":
             pass
 
+        if HP <= 0:
+            print(enemy + " killed " + name "...")
+            draw()
+            fight = False
+            play = False
+            run = False
+            print(" YOU HAVE FALLEN ")
+            print(" GAME OVER ")
+            print("             .")
+            print("            -|-")
+            print("             |")
+            print("         .-'~~~`-.")
+            print("       .'         `.")
+            print("       |  R  I  P  |")
+            print("       |           |")
+            print("       |           |")
+            print("     [[|           |]]")
+            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
         
 while run:
     while menu:
