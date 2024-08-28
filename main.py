@@ -8,7 +8,7 @@ key = False
 fight = False
 standing = True
 
-HP = 5
+HP = 50
 HPMAX = HP
 ATK = 5
 bandages = 3    # small healing
